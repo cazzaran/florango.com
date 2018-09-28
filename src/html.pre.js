@@ -21,9 +21,20 @@
  * @param payload The current payload of processing pipeline
  * @param payload.content The content
  */
+
 function pre(payload) {  
+  var sections = payload.content.sections;
+  var bgImg = payload.content.backgroundImage = sections[0];
+  payload.content.backgroundImage.url = bgImg.mdast.children[0].children[0].url;
+  payload.content.headerSection = sections[1];  
+  payload.content.bodySections = sections.slice(2);
+  for(var s in payload.content.bodySections) {
+    var bSec = payload.content.bodySections[s];
+    if(bSec.html.includes('<img')) {
+      bSec.url = bSec.mdast.children[0].children[0].url;
+    }
+  }
   payload.content.time = `${new Date()}`;
-  payload.content.josh = 'JOSHWASHERE';
 }
 
 module.exports.pre = pre;

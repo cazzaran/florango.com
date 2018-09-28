@@ -127,9 +127,20 @@ parcelRequire = (function (modules, cache, entry, globalName) {
  * @param payload The current payload of processing pipeline
  * @param payload.content The content
  */
+
 function pre(payload) {
+  var sections = payload.content.sections;
+  var bgImg = payload.content.backgroundImage = sections[0];
+  payload.content.backgroundImage.url = bgImg.mdast.children[0].children[0].url;
+  payload.content.headerSection = sections[1];
+  payload.content.bodySections = sections.slice(2);
+  for (var s in payload.content.bodySections) {
+    var bSec = payload.content.bodySections[s];
+    if (bSec.html.includes('<img')) {
+      bSec.url = bSec.mdast.children[0].children[0].url;
+    }
+  }
   payload.content.time = `${new Date()}`;
-  payload.content.josh = 'JOSHWASHERE';
 }
 
 module.exports.pre = pre;
@@ -182,22 +193,79 @@ function run(runtime) {
     let content = runtime.globals.content;
     let request = runtime.globals.request;
     const payload = runtime.globals;
-    out("<!DOCTYPE html>\n<html>\n\n<head>\n  <meta charset=\"utf-8\"></meta>\n  <title>Florango</title>\n  <meta content=\"yes\" name=\"apple-touch-fullscreen\"></meta>\n  <meta content=\"yes\" name=\"apple-mobile-web-app-capable\"></meta>\n  <meta content=\"black-translucent\" name=\"apple-mobile-web-app-status-bar-style\"></meta>\n  <meta content=\"width=device-width, initial-scale=1, maximum-scale=1\" name=\"viewport\"></meta>\n\n  <meta name=\"robots\" content=\"noindex\"></meta>\n\n  <meta property=\"og:title\" content=\"Florango\"></meta>\n  <meta property=\"og:type\" content=\"website\"></meta>\n  <meta property=\"og:image\" content=\"https://spark.adobe.com/page/7th7QDstYQbgM/embed.jpg?buster=1533222831453\"></meta>\n  <meta property=\"og:image:width\" content=\"1024\"></meta>\n  <meta property=\"og:image:height\" content=\"512\"></meta>\n  <meta property=\"og:site_name\" content=\"Adobe Spark\"></meta>\n  <meta property=\"og:description\" content=\"A story told with Adobe Spark\"></meta>\n\n  <meta name=\"twitter:card\" content=\"summary_large_image\"></meta>\n  <meta name=\"twitter:title\" content=\"Florango\"></meta>\n  <meta name=\"twitter:image:src\" content=\"https://spark.adobe.com/page/7th7QDstYQbgM/embed.jpg?buster=1533222831453\"></meta>\n  <meta name=\"twitter:description\" content=\"A story told with Adobe Spark\"></meta>\n\n  <link rel=\"apple-touch-icon\" href=\"https://spark.adobe.com/page/7th7QDstYQbgM/embed.jpg?buster=1533222831453\"></link>\n  <link rel=\"shortcut icon\" href=\"https://d6uhzlpot4xwe.cloudfront.net/runtime/1.21/https://spark.adobe.com/page/7th7QDstYQbgM/images/favicon.ico\"></link>\n\n  <meta property=\"fb:app_id\" content=\"919039361464473\"></meta>\n  <meta name=\"twitter:site\" content=\"@AdobeSpark\"></meta>\n\n  <script src=\"https://d6uhzlpot4xwe.cloudfront.net/runtime/1.21/base-fonts.gz.js\"></script>\n  <script src=\"https://d6uhzlpot4xwe.cloudfront.net/runtime/1.21/themes/wiper-fonts.gz.js\"></script>\n  <link href=\"https://d6uhzlpot4xwe.cloudfront.net/runtime/1.21/runtime.gz.css\" type=\"text/css\" rel=\"stylesheet\"></link>\n  <link href=\"https://d6uhzlpot4xwe.cloudfront.net/runtime/1.21/themes/wiper.gz.css\" type=\"text/css\" rel=\"stylesheet\"></link>\n  <noscript id=\"noscript-static-layout\" data-href=\"https://d6uhzlpot4xwe.cloudfront.net/runtime/1.21/noscript.gz.css\">\n    <link href=\"https://d6uhzlpot4xwe.cloudfront.net/runtime/1.21/noscript.gz.css\" type=\"text/css\" rel=\"stylesheet\"></link>\n  </noscript>\n  <!--BEGIN-BUMPER-STYLE-SHEET-->\n  <!--END-BUMPER-STYLE-SHEET-->\n</head>\n\n<body class=\"\">\n  <div id=\"app\">\n    <div id=\"publication-viewer\" class=\"publication-viewer\">\n      <div id=\"luca-splash\" class=\"splash\">\n        <div class=\"background\" style=\"background-image: url(https://spark.adobe.com/page/7th7QDstYQbgM/images/1a2a82c2-c710-4ce4-bdc9-dbe5473d101c.jpg?asset_id=7578842b-dab9-418b-be69-64ac7de621ed&img_etag=c92d9b0ed0854bb6691a73660cc15dbd&size=1024); background-position: 50% 50%;\"></div>\n        <div class=\"content\">\n          <div class=\"logo\"></div>\n          <div class=\"loading-label\">Loading</div>\n          <div class=\"wp-progress-bar\">\n            <div class=\"wp-progress-bar-clip\">\n              <div class=\"wp-progress-bar-view\"></div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <div class=\"publication-view\">\n        <div class=\"wp-swipe-panel-group\">\n          <div class=\"wp-swipe-panel-group-view\">\n            <div class=\"wp-swipe-panel-group-panel article-panel\">\n              ");
-    const var_collectionVar0 = content["children"];
-    const var_size1 = lengthOf(var_collectionVar0);
-    if (var_size1) {
-      out("<div class=\"article wiper-theme sections-article-layout\" data-article-type=\"sections-article\">");
-      for (const var_index2 of Object.keys(var_collectionVar0)) {
-        const item = Array.isArray(var_collectionVar0) ? var_collectionVar0[var_index2] : var_index2;
-        const itemList = listInfo(var_index2, var_size1);
-        out("\n                <!--\n                <div class=\"section title-section title-center\" data-section-behavior=\"wiper-title\" data-layer=\"-1\"\n                  data-layer-name=\"under\" data-scroll-after-animation=\"false\">\n                  <div class=\"section-view\">\n                    <div class=\"section-background\">\n                      <div role=\"img\" class=\"section-background-image\" style=\"background-position: 50% 50%;\"><a class=\"background-image-placeholder-link\"\n                          href=\"https://spark.adobe.com/page/7th7QDstYQbgM/images/1a2a82c2-c710-4ce4-bdc9-dbe5473d101c.jpg?asset_id=7578842b-dab9-418b-be69-64ac7de621ed&img_etag=c92d9b0ed0854bb6691a73660cc15dbd&size=1024\"\n                          data-image-width=\"2560\" data-image-height=\"3840\"></a></div>\n                    </div>\n                    <div class=\"title-header\">\n                      <h2 class=\"title-header-view\">\n                        <span class=\"gradient-overlay\"></span>\n                        <span class=\"title\">Florango</span>\n                        <span class=\"subtitle\">FLOWER TRUCK - COMING SOON</span>\n                      </h2>\n                    </div>\n                    <div class=\"navigation-hint down\"></div>\n                  </div>\n                </div>-->\n                <div class=\"section single-column-section  large-content-spacing-top large-content-spacing-bottom top-shadow\" data-section-behavior=\"wiper-single-column\" data-layer=\"1\" data-layer-name=\"over\">\n                  <div class=\"section-view\">\n                    <div class=\"section-content\">\n                      <div class=\"section-content-view\">\n                        <div class=\"content-container\">");
-        const var_3 = "\n                          " + item + "\n                        ";
-        out(var_3);
-        out("</div>\n                      </div>\n                    </div>\n                  </div>\n                </div>\n                \n\n                <!--BUMPER-SECTION-TOP-LEVEL-START-->\n                <!--BUMPER-SECTION-TOP-LEVEL-END-->\n\n              ");
-      }
-      out("</div>");
+    out("<!DOCTYPE html>\n<html>\n\n<head>\n  <meta charset=\"utf-8\"></meta>\n  <title>Florango</title>\n  <meta content=\"yes\" name=\"apple-touch-fullscreen\"></meta>\n  <meta content=\"yes\" name=\"apple-mobile-web-app-capable\"></meta>\n  <meta content=\"black-translucent\" name=\"apple-mobile-web-app-status-bar-style\"></meta>\n  <meta content=\"width=device-width, initial-scale=1, maximum-scale=1\" name=\"viewport\"></meta>\n\n  <meta name=\"robots\" content=\"noindex\"></meta>\n\n  <meta property=\"og:title\" content=\"Florango\"></meta>\n  <meta property=\"og:type\" content=\"website\"></meta>\n  <meta property=\"og:image\" content=\"https://spark.adobe.com/page/7th7QDstYQbgM/embed.jpg?buster=1533222831453\"></meta>\n  <meta property=\"og:image:width\" content=\"1024\"></meta>\n  <meta property=\"og:image:height\" content=\"512\"></meta>\n  <meta property=\"og:site_name\" content=\"Adobe Spark\"></meta>\n  <meta property=\"og:description\" content=\"A story told with Adobe Spark\"></meta>\n\n  <meta name=\"twitter:card\" content=\"summary_large_image\"></meta>\n  <meta name=\"twitter:title\" content=\"Florango\"></meta>\n  <meta name=\"twitter:image:src\" content=\"https://spark.adobe.com/page/7th7QDstYQbgM/embed.jpg?buster=1533222831453\"></meta>\n  <meta name=\"twitter:description\" content=\"A story told with Adobe Spark\"></meta>\n\n  <link rel=\"apple-touch-icon\" href=\"https://spark.adobe.com/page/7th7QDstYQbgM/embed.jpg?buster=1533222831453\"></link>\n  <link rel=\"shortcut icon\" href=\"https://d6uhzlpot4xwe.cloudfront.net/runtime/1.21/https://spark.adobe.com/page/7th7QDstYQbgM/images/favicon.ico\"></link>\n\n  <meta property=\"fb:app_id\" content=\"919039361464473\"></meta>\n  <meta name=\"twitter:site\" content=\"@AdobeSpark\"></meta>\n\n  <script src=\"https://d6uhzlpot4xwe.cloudfront.net/runtime/1.21/base-fonts.gz.js\"></script>\n  <script src=\"https://d6uhzlpot4xwe.cloudfront.net/runtime/1.21/themes/wiper-fonts.gz.js\"></script>\n  <link href=\"https://d6uhzlpot4xwe.cloudfront.net/runtime/1.21/runtime.gz.css\" type=\"text/css\" rel=\"stylesheet\"></link>\n  <link href=\"https://d6uhzlpot4xwe.cloudfront.net/runtime/1.21/themes/wiper.gz.css\" type=\"text/css\" rel=\"stylesheet\"></link>\n  <noscript id=\"noscript-static-layout\" data-href=\"https://d6uhzlpot4xwe.cloudfront.net/runtime/1.21/noscript.gz.css\">\n    <link href=\"https://d6uhzlpot4xwe.cloudfront.net/runtime/1.21/noscript.gz.css\" type=\"text/css\" rel=\"stylesheet\"></link>\n  </noscript>\n  <!--BEGIN-BUMPER-STYLE-SHEET-->\n  <!--END-BUMPER-STYLE-SHEET-->\n</head>\n\n<body class=\"\">\n  <div id=\"app\">\n    <div id=\"publication-viewer\" class=\"publication-viewer\">\n      <div id=\"luca-splash\" class=\"splash\">\n        <div class=\"background\"");
+    const var_attrContent0 = "background-image: url(" + xss(content["backgroundImage"]["url"], "attribute") + "); background-position: 50% 50%;";
+    if (var_attrContent0 || "false" == var_attrContent0) {
+      out(" style=\"");
+      out(var_attrContent0);
+      out("\"");
     }
-    out("\n              <!--report-abuse-dialog-->\n            </div>\n            <!-- javascripts go here -->\n            <script type=\"text/javascript\">window.useNewBumper = true; window.brandType = 'none';</script>\n            <script type=\"text/javascript\" src=\"https://d6uhzlpot4xwe.cloudfront.net/runtime/1.21/runtime-prod.gz.js\" charset=\"utf-8\"></script>\n            <!--BEGIN-BUMPER-BEHAVIORS-->\n            <!--END-BUMPER-BEHAVIORS-->\n</div></div></div></div></div></body>\n\n</html>");
+    out("></div>\n        <div class=\"content\">\n          <div class=\"logo\"></div>\n          <div class=\"loading-label\">Loading</div>\n          <div class=\"wp-progress-bar\">\n            <div class=\"wp-progress-bar-clip\">\n              <div class=\"wp-progress-bar-view\"></div>\n            </div>\n          </div>\n        </div>\n      </div>\n      <div class=\"publication-view\">\n        <div class=\"wp-swipe-panel-group\">\n          <div class=\"wp-swipe-panel-group-view\">\n            <div class=\"wp-swipe-panel-group-panel article-panel\">\n              <div class=\"article wiper-theme sections-article-layout\" data-article-type=\"sections-article\">\n\n                <div class=\"section title-section title-center\" data-section-behavior=\"wiper-title\" data-layer=\"-1\" data-layer-name=\"under\" data-scroll-after-animation=\"false\">\n                  <div class=\"section-view\">\n                    <div class=\"section-background\">\n                      <div role=\"img\" class=\"section-background-image\" style=\"background-position: 50% 50%;\"><a class=\"background-image-placeholder-link\"");
+    const var_attrValue1 = content["backgroundImage"]["url"];
+    const var_attrContent2 = xss(var_attrValue1, "uri");
+    if (var_attrContent2 || "false" == var_attrValue1) {
+      out(" href");
+      if (var_attrValue1 !== true) {
+        out("=\"");
+        out(var_attrContent2);
+        out("\"");
+      }
+    }
+    out(" data-image-width=\"2560\" data-image-height=\"3840\"></a></div>\n                    </div>\n                    <div class=\"title-header\">\n                      <h2 class=\"title-header-view\">\n                        <span class=\"gradient-overlay\"></span>\n                        <span class=\"title\">");
+    const var_3 = content["headerSection"]["html"];
+    out(var_3);
+    out("</span>\n                        <!--<span class=\"title\">Florango</span>\n                        <span class=\"subtitle\">FLOWER TRUCK - COMING SOON</span>-->\n                      </h2>\n                    </div>\n                    <div class=\"navigation-hint down\"></div>\n                  </div>\n                </div>\n\n\n                ");
+    const var_collectionVar4 = content["bodySections"];
+    const var_size5 = lengthOf(var_collectionVar4);
+    if (var_size5) {
+      if (false) {
+        out("<sly>");
+      }
+      for (const var_index6 of Object.keys(var_collectionVar4)) {
+        const item = Array.isArray(var_collectionVar4) ? var_collectionVar4[var_index6] : var_index6;
+        const itemList = listInfo(var_index6, var_size5);
+        out("\n                  \n                  ");
+        const var_testVariable7 = !item["url"];
+        if (var_testVariable7) {
+          out("<div class=\"section single-column-section large-content-spacing-top large-content-spacing-bottom top-shadow\" data-section-behavior=\"wiper-single-column\" data-layer=\"1\" data-layer-name=\"over\">\n                    <div class=\"section-view\">\n                      <div class=\"section-content\">\n                        <div class=\"section-content-view\">\n                          <div class=\"content-container\">");
+          const var_8 = "\n                            " + item["html"] + "\n                          ";
+          out(var_8);
+          out("</div>\n                        </div>\n                      </div>\n                    </div>\n                  </div>");
+        }
+        out("\n\n                  ");
+        const var_testVariable9 = item["url"];
+        if (var_testVariable9) {
+          out("<div class=\"section full-width-section\" data-section-behavior=\"wiper-full-width-photo\" data-layer=\"0\" data-layer-name=\"over\">\n                  <div class=\"section-view\">\n                    <div class=\"section-content\">\n                      <div class=\"section-content-view\">\n                        <div class=\"content-container\">\n                          <div class=\"image\">\n                            <div class=\"image-wrapper\">\n                              <a");
+          const var_attrValue10 = item["url"];
+          const var_attrContent11 = xss(var_attrValue10, "uri");
+          if (var_attrContent11 || "false" == var_attrValue10) {
+            out(" href");
+            if (var_attrValue10 !== true) {
+              out("=\"");
+              out(var_attrContent11);
+              out("\"");
+            }
+          }
+          out(" class=\"image-viewer-link\" target=\"_blank\" rel=\"nofollow noreferrer\"><span class=\"image-placeholder-link\"");
+          const var_attrValue12 = item["url"];
+          const var_attrContent13 = xss(var_attrValue12, "attribute");
+          if (var_attrContent13 || "false" == var_attrValue12) {
+            out(" data-href");
+            if (var_attrValue12 !== true) {
+              out("=\"");
+              out(var_attrContent13);
+              out("\"");
+            }
+          }
+          out(" style=\"width: 2560px; padding-top: 75%\" data-image-width=\"2560\" data-image-height=\"1920\"></span></a>\n                            </div>\n                          </div>\n                        </div>\n                      </div>\n                    </div>\n                  </div>\n                </div>");
+        }
+        out("\n                ");
+      }
+      if (false) {
+        out("</sly>");
+      }
+    }
+    out("\n\n                <!--BUMPER-SECTION-TOP-LEVEL-START-->\n                <!--BUMPER-SECTION-TOP-LEVEL-END-->\n\n              </div>\n              <!--report-abuse-dialog-->\n            </div>\n            <!-- javascripts go here -->\n            <script type=\"text/javascript\">window.useNewBumper = true; window.brandType = 'none';</script>\n            <script type=\"text/javascript\" src=\"https://d6uhzlpot4xwe.cloudfront.net/runtime/1.21/runtime-prod.gz.js\" charset=\"utf-8\"></script>\n            <!--BEGIN-BUMPER-BEHAVIORS-->\n            <!--END-BUMPER-BEHAVIORS-->\n</div></div></div></div></div></body>\n\n</html>");
   });
 }
 

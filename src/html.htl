@@ -45,7 +45,7 @@
   <div id="app">
     <div id="publication-viewer" class="publication-viewer">
       <div id="luca-splash" class="splash">
-        <div class="background" style="background-image: url(https://spark.adobe.com/page/7th7QDstYQbgM/images/1a2a82c2-c710-4ce4-bdc9-dbe5473d101c.jpg?asset_id=7578842b-dab9-418b-be69-64ac7de621ed&img_etag=c92d9b0ed0854bb6691a73660cc15dbd&size=1024); background-position: 50% 50%;"></div>
+        <div class="background" style="background-image: url(${content.backgroundImage.url}); background-position: 50% 50%;"></div>
         <div class="content">
           <div class="logo"></div>
           <div class="loading-label">Loading</div>
@@ -60,39 +60,64 @@
         <div class="wp-swipe-panel-group">
           <div class="wp-swipe-panel-group-view">
             <div class="wp-swipe-panel-group-panel article-panel">
-              <div data-sly-list="${content.children}" class="article wiper-theme sections-article-layout" data-article-type="sections-article">
-                <!--
+              <div class="article wiper-theme sections-article-layout" data-article-type="sections-article">
+
                 <div class="section title-section title-center" data-section-behavior="wiper-title" data-layer="-1"
                   data-layer-name="under" data-scroll-after-animation="false">
                   <div class="section-view">
                     <div class="section-background">
                       <div role="img" class="section-background-image" style="background-position: 50% 50%;"><a class="background-image-placeholder-link"
-                          href="https://spark.adobe.com/page/7th7QDstYQbgM/images/1a2a82c2-c710-4ce4-bdc9-dbe5473d101c.jpg?asset_id=7578842b-dab9-418b-be69-64ac7de621ed&img_etag=c92d9b0ed0854bb6691a73660cc15dbd&size=1024"
+                          href="${content.backgroundImage.url}"
                           data-image-width="2560" data-image-height="3840"></a></div>
                     </div>
                     <div class="title-header">
                       <h2 class="title-header-view">
                         <span class="gradient-overlay"></span>
-                        <span class="title">Florango</span>
-                        <span class="subtitle">FLOWER TRUCK - COMING SOON</span>
+                        <span class="title">${content.headerSection.html}</span>
+                        <!--<span class="title">Florango</span>
+                        <span class="subtitle">FLOWER TRUCK - COMING SOON</span>-->
                       </h2>
                     </div>
                     <div class="navigation-hint down"></div>
                   </div>
-                </div>-->
-                <div  class="section single-column-section  large-content-spacing-top large-content-spacing-bottom top-shadow"
-                  data-section-behavior="wiper-single-column" data-layer="1" data-layer-name="over">
+                </div>
+
+
+                <sly data-sly-list="${content.bodySections}">
+                  
+                  <div data-sly-test="${!item.url}" class="section single-column-section large-content-spacing-top large-content-spacing-bottom top-shadow"
+                    data-section-behavior="wiper-single-column" data-layer="1" data-layer-name="over">
+                    <div class="section-view">
+                      <div class="section-content">
+                        <div class="section-content-view">
+                          <div class="content-container">
+                            ${item.html}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div data-sly-test="${item.url}" class="section full-width-section" data-section-behavior="wiper-full-width-photo" data-layer="0"
+                  data-layer-name="over">
                   <div class="section-view">
                     <div class="section-content">
                       <div class="section-content-view">
                         <div class="content-container">
-                          ${item}
+                          <div class="image">
+                            <div class="image-wrapper">
+                              <a href="${item.url}"
+                                class="image-viewer-link" target="_blank" rel="nofollow noreferrer"><span class="image-placeholder-link"
+                                  data-href="${item.url}"
+                                  style="width: 2560px; padding-top: 75%" data-image-width="2560" data-image-height="1920"></span></a>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                
+                </sly>
 
                 <!--BUMPER-SECTION-TOP-LEVEL-START-->
                 <!--BUMPER-SECTION-TOP-LEVEL-END-->
